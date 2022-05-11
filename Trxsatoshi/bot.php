@@ -69,7 +69,7 @@ function z($x,$y,$z){
 }
 function Tmr($tmr){$timr=time()+$tmr;while(true){echo "\r                       \r";$res=$timr-time(); if($res < 1){break;}echo date('i:s',$res);sleep(1);}}
 
-//server();short();
+server();short();
 bn();
 s('Cookie');s('User_agent');
 
