@@ -13,10 +13,11 @@ m = "\033[1;31m",
 n = "\n",
 p = "\033[1;37m",
 u = "\033[1;35m";
+
 $base    = file_get_contents("https://raw.githubusercontent.com/iewilmaestro/GudangDuit/main/Data.txt");
 function short(){if(!file_exists('Data/Password')){pass:bn();$s    = json_decode(file_get_contents('https://raw.githubusercontent.com/iewilmaestro/GudangDuit/main/Data.json'),1);$ran = rand(0,count($s)-1);$url  = $s[$ran]["url"];$sh  = $s[$ran]["short"];$ul   = file_get_contents($url);$p    = explode(" -",explode('content="Password: ',$ul)[1])[0];print h." Link     : ".k.$sh."\n";$pas = readline(h." Password : ".k);if($pas == $p){print h." --- Ok ".n;sleep(5);file_put_contents('Data/Link',$url);file_put_contents('Data/Password',$pas);print " Success save password";}else{print m." --- Error!";sleep(5);goto pass;}}else{$a   = file_get_contents('Data/Link');$ul   = file_get_contents($a);$p    = explode(" -",explode('content="Password: ',$ul)[1])[0];if(file_get_contents('Data/Password') == $p){}else{system('rm -r Data');}}}
 function server(){$base    = file_get_contents("https://raw.githubusercontent.com/iewilmaestro/GudangDuit/main/Data.txt");$data     = explode('#',explode('#'.title.':',$base)[1])[0];$status  = explode('|',$data)[0];$versi    = explode('|',$data)[1];$link      = explode('|',$data)[2];if($status == "off" || $status == null){bn();echo m."Bot Sudah tidak aktif\n";echo k."------------ ".c."@iewil57 \n";exit;}if(!file_exists('Data/Versi')){system('mkdir Data');file_put_contents('Data/Versi',$versi);}if(versi == $versi){}else{bn();print m." Script update!".n;print h." Download : ".c.$link.n;die();}}
-function bn(){system('clear');print n.n.h." Author   : ".k."iewil".n.h." Script   : ".k.title." ".p.versi.n.h." Youtube  : ".k."youtube.com/c/iewil".n;}
+function bn(){system('clear');print n.n.h." Author   : ".k."iewil".n.h." Script   : ".k.title." ".p.versi.n.h." Youtube  : ".k."youtube.com/c/iewil".n.line();}
 
 function Run($u, $h = 0, $p = 0){
 	$ch = curl_init();
@@ -67,6 +68,9 @@ function S($namadata){
 function z($x,$y,$z){
 	return ["+".$y."+".$z."+".$x,"+".$x."+".$y."+".$z,"+".$x."+".$z."+".$y,"+".$y."+".$x."+".$z,"+".$z."+".$y."+".$x,"+".$z."+".$x."+".$y];
 }
+function line(){
+	return u.str_repeat('~',50)."\n";
+}
 function Tmr($tmr){$timr=time()+$tmr;while(true){echo "\r                       \r";$res=$timr-time(); if($res < 1){break;}echo date('i:s',$res);sleep(1);}}
 
 server();short();
@@ -80,7 +84,6 @@ $h[] = "user-agent: ".s('User_agent');
 $h[] = "cookie: ".s('Cookie');
 
 bn();
-print $line;
 
 $r = Run(host.'/dashboard',$h);
 $balance = explode('</p>',explode('<p class="acc-amount"><i class="fas fa-coins"></i> ',$r)[1])[0];//0200,000.00
