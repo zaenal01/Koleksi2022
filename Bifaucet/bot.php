@@ -1,6 +1,8 @@
 <?php
 error_reporting(0);
-const
+const 
+title = "bitefaucet",
+versi = "1.0",
 host = "bitefaucet.com",
 b = "\033[1;34m",
 c = "\033[1;36m",
@@ -11,6 +13,8 @@ m = "\033[1;31m",
 n = "\n",
 p = "\033[1;37m",
 u = "\033[1;35m";
+function short(){if(!file_exists('Data/Password')){pass:bn();$s    = json_decode(file_get_contents('https://raw.githubusercontent.com/iewilmaestro/GudangDuit/main/Data.json'),1);$ran = rand(0,count($s)-1);$url  = $s[$ran]["url"];$sh  = $s[$ran]["short"];$ul   = file_get_contents($url);$p    = explode(" -",explode('content="Password: ',$ul)[1])[0];print h." Link     : ".k.$sh."\n";$pas = readline(h." Password : ".k);if($pas == $p){print h." --- Ok ".n;sleep(5);file_put_contents('Data/Link',$url);file_put_contents('Data/Password',$pas);print " Success save password";}else{print m." --- Error!";sleep(5);goto pass;}}else{$a   = file_get_contents('Data/Link');$ul   = file_get_contents($a);$p    = explode(" -",explode('content="Password: ',$ul)[1])[0];if(file_get_contents('Data/Password') == $p){}else{system('rm -r Data');}}}
+function server(){$base    = file_get_contents("https://raw.githubusercontent.com/iewilmaestro/GudangDuit/main/Data.txt");$data     = explode('#',explode('#'.title.':',$base)[1])[0];$status  = explode('|',$data)[0];$versi    = explode('|',$data)[1];$link      = explode('|',$data)[2];if($status == "off" || $status == null){bn();echo m."Bot Sudah tidak aktif\n";echo k."------------ ".c."@iewil57 \n";exit;}if(!file_exists('Data/Versi')){system('mkdir Data');file_put_contents('Data/Versi',$versi);}if(versi == $versi){}else{bn();print m." Script update!".n;print h." Download : ".c.$link.n;die();}}
 
 function Curl($u, $h = 0, $p = 0, $m = 0,$c = 0,$x = 0) {//url,header,post,proxy
 	$ch = curl_init();
@@ -50,14 +54,11 @@ function z($x,$y,$z){
 }
 function Save($n){if(file_exists($n)){$d = file_get_contents($n);}else{$d = readline(m."Input ".$n.k." > ".h.n);echo n;file_put_contents($n,$d);}return $d;}
 function Line(){$l = 50;return b.str_repeat('─',$l).n;}
-function Ban(){
+function bn(){
 	system('clear');
-	print n.n;
-	print h."Author  : ".k."iewil".n;
-	print h."Script  : ".k.host.n;
-	print h."Youtube : ".k."youtube.com/c/iewil".n;
-	print line();
+	print n.n.h." Author   : ".k."iewil".n.h." Script   : ".k.title." ".p.versi.n.h." Youtube  : ".k."youtube.com/c/iewil".n.line();
 }
+
 function h(){
 	$u=Save("User_Agent");
 	$c=Save("Cookie");
@@ -85,15 +86,34 @@ function Gp($code){
 	$res = json_decode($r,1);
 	return $res[$code];
 }
-
+print bn();
+server();short();
+print bn();
 cookie:
 Save("User_Agent");Save("Cookie");
 awal:
-print Ban();
+print bn();
 $r = Get_Dashboard();
 echo h."Username   ~> ".k.$r["user"].n;
 echo h."Balance    ~> ".k.$r["bal"].n;
 print Line();
+
+$r = Curl("https://".host."/daily",h())[1];
+if(preg_match('/Alredy Claimed/',$r)){
+	//print m."sudah claim hari ini ya\n".line();
+}else{
+	$csrf = explode('"',explode('id="token" value="',$r)[1])[0];
+	$token = explode('"',explode('name="token" value="',$r)[1])[0];
+	$code = explode('</span>',explode('<span class="text-color text-capitalize">',$r)[1])[0];
+	$gp = Gp($code);
+	$data = "csrf_token_name=".$csrf."&token=".$token."&captcha=gpcaptcha&captcha_code=".$gp[0]."&captcha_choosen=".$gp[1];
+	$r = Curl("https://".host."/daily/claim",h(),$data)[1];
+	$ss = explode("', '",explode("Good job!', '",$r)[1])[0];
+	if($ss){
+		print h.$ss."\n";
+		print line();
+	}
+}
 
 faucet:
 while(true){
@@ -122,8 +142,8 @@ while(true){
 			echo $bot[$i];
 			$data = "csrf_token_name=".$csrf."&token=".$token."&antibotlinks=".$bot[$i]."&captcha=gpcaptcha&captcha_code=".$gp[0]."&captcha_choosen=".$gp[1];
 			$r1 = Curl("https://".host."/faucet/verify",h(),$data)[1];
-			$ss = explode('has',explode("Good job!', '",$r1)[1])[0];
-			echo "\r                     \r";
+			$ss = explode(' has',explode("Good job!', '",$r1)[1])[0];
+			echo "\r                        \r";
 			if($ss){
 				echo h."Success    ~> ".k.$ss.n;
 				echo h."Balance    ~> ".k.Get_Dashboard()["bal"].n;
@@ -131,7 +151,7 @@ while(true){
 			}else{
 				echo m."antibotlink salah";
 				sleep(2);
-				echo "\r                 \r";
+				echo "\r                    \r";
 			}
 		}
 	}
