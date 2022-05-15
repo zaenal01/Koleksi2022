@@ -127,7 +127,6 @@ while(true){
 		}
 		$tmr=explode(' -',explode('var wait = ',$r)[1])[0];
 		if($tmr>0){tmr($tmr);goto faucet;}
-		echo k."Bypass ";
 		$csrf = explode('"',explode('id="token" value="',$r)[1])[0];
 		$token = explode('"',explode('name="token" value="',$r)[1])[0];
 		$code = explode('</span>',explode('<span class="text-color text-capitalize">',$r)[1])[0];
